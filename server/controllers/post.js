@@ -52,6 +52,7 @@ exports.getAllPost = (req, res) => {
 
 exports.getPostById = (req, res) => {
   Post.findById({ _id: req.params.postId })
+    .populate("postedBy", "_id name")
     .then((post) => {
       if (!post) {
         res.status(404).json({ message: "no post found" });

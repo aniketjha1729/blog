@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const { createPost, getAllPost,photo } = require("../controllers/post");
+const { createPost, getAllPost,getPostById, photo } = require("../controllers/post");
 const { isUserAuth } = require("../middleware/auth");
 
 /*<=======================================================================================================>*/
@@ -16,7 +16,7 @@ router.post("/createPost", isUserAuth, createPost);
 
 router.get("/allPosts", getAllPost);
 
-router.get("/getPostById/:postId", getAllPost);
+router.get("/getPostById/:postId", getPostById);
 
 router.get("/photo/:postId", photo);
 
