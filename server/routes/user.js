@@ -2,7 +2,9 @@ const express = require("express");
 const router = express.Router();
 const { check } = require("express-validator");
 
-const { signIn, signUp } = require("../controllers/user");
+const { signIn, signUp, currentProfile } = require("../controllers/user");
+
+const { isUserAuth } = require("../middleware/auth");
 
 /*<=======================================================================================================>*/
 
@@ -11,6 +13,8 @@ router.get("/test", (req, res) => {
     Message: "User Routes Working",
   });
 });
+
+router.get("/currentUser", isUserAuth, currentProfile);
 
 router.post(
   "/signin",

@@ -1,15 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { logout } from "../../redux/actions/user";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import "./navbar.css";
 
-const Navbar = () => {
+const Navbar = ({ logout, isAuthenticated, user: { user } }) => {
   return (
     <div className="top">
       <div className="topLeft">
-        <i className="topIcon fab fa-facebook-square"></i>
-        <i className="topIcon fab fa-twitter-square"></i>
-        <i className="topIcon fab fa-pinterest-square"></i>
-        <i className="topIcon fab fa-instagram-square"></i>
+        <i class="fas fa-blog fa-2x"></i>
       </div>
       <div className="topCenter">
         <ul className="topList">
@@ -28,38 +28,64 @@ const Navbar = () => {
               CONTACT
             </Link>
           </li>
-          <li className="topListItem">
-            <Link className="link" to="/write">
-              WRITE
-            </Link>
-          </li>
-          <li className="topListItem">LOGOUT</li>
+          {isAuthenticated ? (
+            <>
+              <li className="topListItem">
+                <Link className="link" to="/write">
+                  WRITE
+                </Link>
+              </li>
+              <li className="topListItem" onClick={logout}>
+                LOGOUT
+              </li>
+            </>
+          ) : (
+            ""
+          )}
         </ul>
       </div>
       <div className="topRight">
-        <Link to="/settings">
-          <img
-            className="topImg"
-            src="https://images.unsplash.com/photo-1597811815738-7e9e6175a21b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80"
-            alt="photo"
-          />
-        </Link>
-        <ul className="topList">
-          <li className="topListItem">
-            <Link className="link" to="/login">
-              LOGIN
+        {isAuthenticated ? (
+          <>
+            <Link to="/settings">
+              <img
+                className="topImg"
+                src="https://www.pngfind.com/pngs/m/470-4703547_icon-user-icon-hd-png-download.png"
+                alt="photo"
+              />
             </Link>
-          </li>
-          <li className="topListItem">
-            <Link className="link" to="/register">
-              REGISTER
-            </Link>
-          </li>
-        </ul>
-        <i className="topSearchIcon fas fa-search"></i>
+            &nbsp; {user ? user.name : ""}
+          </>
+        ) : (
+          ""
+        )}
+        {!isAuthenticated ? (
+          <ul className="topList">
+            <li className="topListItem">
+              <Link className="link" to="/login">
+                LOGIN
+              </Link>
+            </li>
+            <li className="topListItem">
+              <Link className="link" to="/register">
+                REGISTER
+              </Link>
+            </li>
+          </ul>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );
 };
+Navbar.propTypes = {
+  logout: PropTypes.func.isRequired,
+};
 
-export default Navbar;
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.user.isAuthenticated,
+  user: state.user,
+});
+
+export default connect(mapStateToProps, { logout })(Navbar);

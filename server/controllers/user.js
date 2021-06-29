@@ -68,6 +68,7 @@ exports.signIn = async (req, res) => {
 };
 
 exports.signUp = async (req, res) => {
+  console.log("hello");
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.array() });

@@ -1,31 +1,35 @@
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Provider } from "react-redux";
+import store from "./store";
+import { setAuthToken } from "./utils/setAuthToken";
+import { USER_LOGIN_FAIL } from "./redux/actions/types";
+import { loadUserData } from "./redux/actions/user";
 import Navbar from "./components/navbar/Navbar";
-import Home from "./pages/Home/Home";
-import Login from "./pages/login/Login";
-import Register from "./pages/register/Register";
-import Write from "./pages/write/Write";
-import Single from "./pages/Post/Single";
+import Routes from "./routing/Routes";
+
 const App = () => {
-  const currentUser = true;
+  useEffect(() => {
+    // check for token in LS
+    if (localStorage.usertoken) {
+      setAuthToken(localStorage.usertoken);
+      store.dispatch(loadUserData());
+    }
+    // log user out from all tabs if they log out in one tab
+    window.addEventListener("storage", () => {
+      if (!localStorage.admintoken) store.dispatch({ type: USER_LOGIN_FAIL });
+    });
+  }, []);
+
   return (
-    <Router>
-      <Navbar />
-      <Switch>
-        <Route exact path="/">
-          <Home />
-        </Route>
-        <Route path="/posts">
-          <Home />
-        </Route>
-        <Route path="/register">{currentUser ? <Home /> : <Register />}</Route>
-        <Route path="/login">{currentUser ? <Home /> : <Login />}</Route>
-        <Route path="/post/:id">
-          <Single />
-        </Route>
-        <Route path="/write">{currentUser ? <Write /> : <Login />}</Route>
-        <Route path="/settings">{currentUser ? "" : <Login />}</Route>
-      </Switch>
-    </Router>
+    <Provider store={store}>
+      <Router>
+        <Navbar />
+        <Switch>
+          <Route component={Routes} />
+        </Switch>
+      </Router>
+    </Provider>
   );
 };
 
