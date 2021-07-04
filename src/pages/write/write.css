@@ -3,9 +3,9 @@
 }
 
 .writeImg {
-  margin-left: 150px;
-  width: 70vw;
-  height: auto;
+  margin-left: 400px;
+  width: 600px;
+  height: 400px;
   border-radius: 10px;
   object-fit: cover;
 }

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { Redirect } from "react-router-dom";
+
 import axios from "../../api/axios";
 import "./write.css";
 
@@ -9,6 +11,7 @@ export default function Write() {
     title: "",
     formData: "",
   });
+  const [success, setSuccess] = useState(false);
 
   const { content, photo, title, formData } = values;
 
@@ -26,11 +29,16 @@ export default function Write() {
     event.preventDefault();
     try {
       const { data } = await axios.post("/post/createPost", formData);
+      setSuccess(true);
       console.log(data);
     } catch (err) {
       console.log(err);
     }
   };
+
+  if(success){
+    return <Redirect to="/" />;
+  }
 
   return (
     <div className="write">

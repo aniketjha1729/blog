@@ -60,7 +60,6 @@ const Register=({ userRegister, signupStatus, errors })=> {
         />
         <button className="registerButton">Register</button>
       </form>
-      
     </div>
   );
 }
