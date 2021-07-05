@@ -1,7 +1,16 @@
 const express = require("express");
 const router = express.Router();
 
-const { createPost, getAllPost,getPostById, photo } = require("../controllers/post");
+const {
+  createPost,
+  getAllPost,
+  getPostById,
+  addLikes,
+  addLove,
+  addClaps,
+  addComment,
+  photo,
+} = require("../controllers/post");
 const { isUserAuth } = require("../middleware/auth");
 
 /*<=======================================================================================================>*/
@@ -13,6 +22,14 @@ router.get("/test", (req, res) => {
 });
 
 router.post("/createPost", isUserAuth, createPost);
+
+router.put("/addLikes/:postId", isUserAuth, addLikes);
+
+router.put("/addLove/:postId", isUserAuth, addLove);
+
+router.put("/addClaps/:postId", isUserAuth, addClaps);
+
+router.post("/addComments/comment/:postId", isUserAuth, addComment);
 
 router.get("/allPosts", getAllPost);
 

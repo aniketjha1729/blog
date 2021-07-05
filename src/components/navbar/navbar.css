@@ -60,6 +60,23 @@
   margin-left: 15px;
 }
 
-.link{
+.link {
   text-decoration: none;
+}
+
+.customSelect {
+  border: none;
+  font-size: 18px;
+  font-family: "Josefin Sans", sans-serif;
+  cursor: pointer;
+}
+
+select:active {
+  border: none;
+  outline: none;
+}
+
+select:focus {
+  border: none;
+  outline: none;
 }

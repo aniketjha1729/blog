@@ -1,20 +1,23 @@
 import React from "react";
 import Header from "../../components/header/Header";
-import Sidebar from "../../components/sidebar/SideBar";
 import Posts from "../../components/posts/Posts";
-
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import "./home.css";
 
-const Home = () => {
+const Home = ({ isAuthenticated }) => {
   return (
     <>
       <Header />
       <div className="home">
-        <Posts />
-        <Sidebar />
+        <Posts isAuthenticated={isAuthenticated} />
       </div>
     </>
   );
 };
 
-export default Home;
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.user.isAuthenticated,
+});
+
+export default connect(mapStateToProps, {})(Home);

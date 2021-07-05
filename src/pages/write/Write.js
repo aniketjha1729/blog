@@ -9,11 +9,12 @@ export default function Write() {
     photo: "",
     content: "",
     title: "",
+    category: "",
     formData: "",
   });
   const [success, setSuccess] = useState(false);
 
-  const { content, photo, title, formData } = values;
+  const { content, photo, title, category, formData } = values;
 
   useEffect(() => {
     setValues({ ...values, formData: new FormData() });
@@ -36,7 +37,7 @@ export default function Write() {
     }
   };
 
-  if(success){
+  if (success) {
     return <Redirect to="/" />;
   }
 
@@ -67,6 +68,19 @@ export default function Write() {
             onChange={handleChange("title")}
             autoFocus={true}
           />
+        </div>
+        <div className="writeFormGroup">
+          <select
+            name="category"
+            className="customSelect"
+            value={category}
+            onChange={handleChange("category")}
+          >
+            <option value="">Category</option>
+            <option value="Comedy">Comedy</option>
+            <option value="Thriller">Thriller</option>
+            <option value="Drama">Drama</option>
+          </select>
         </div>
         <div className="writeFormGroup">
           <textarea

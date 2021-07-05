@@ -13,8 +13,8 @@ exports.createPost = (req, res) => {
         errors: [{ msg: "Problem with file" }],
       });
     }
-    const { content, title } = fields;
-    if (!content || !title) {
+    const { content, title, category } = fields;
+    if (!content || !title || !category) {
       return res.status(400).json({
         errors: [{ msg: "Content Required" }],
       });
@@ -60,6 +60,78 @@ exports.getPostById = (req, res) => {
       res.status(200).json(post);
     })
     .catch((err) => console.log(err));
+};
+
+exports.addComment = (req, res) => {
+  const { comment } = req.body;
+  if (!comment) {
+    console.log(comment);
+    return res.status(422).json({ message: "Please include all fields" });
+  }
+  Post.findById(req.params.postId)
+    .then((post) => {
+      const newComment = {
+        comment,
+        commentedBy: req.user._id,
+      };
+      post.comments.unshift(newComment);
+      post.save().then((post) => res.json(post));
+    })
+    .catch((err) => console.log(err));
+};
+
+exports.addLikes = (req, res) => {
+  Post.findByIdAndUpdate(
+    req.params.postId,
+    {
+      $push: { likes: req.user.id },
+    },
+    {
+      new: true,
+    }
+  ).exec((err, result) => {
+    if (err) {
+      return res.status(422).json({ error: err });
+    } else {
+      res.json(result);
+    }
+  });
+};
+
+exports.addLove = (req, res) => {
+  Post.findByIdAndUpdate(
+    req.params.postId,
+    {
+      $push: { love: req.user.id },
+    },
+    {
+      new: true,
+    }
+  ).exec((err, result) => {
+    if (err) {
+      return res.status(422).json({ error: err });
+    } else {
+      res.json(result);
+    }
+  });
+};
+
+exports.addClaps = (req, res) => {
+  Post.findByIdAndUpdate(
+    req.params.postId,
+    {
+      $push: { claps: req.user.id },
+    },
+    {
+      new: true,
+    }
+  ).exec((err, result) => {
+    if (err) {
+      return res.status(422).json({ error: err });
+    } else {
+      res.json(result);
+    }
+  });
 };
 
 exports.photo = (req, res) => {

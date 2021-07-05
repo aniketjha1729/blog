@@ -4,10 +4,46 @@
   flex-wrap: wrap;
   margin: 20px;
 }
-
+.filterContainer {
+  font-size: 18px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .post {
   width: 385px;
   margin: 0px 25px 40px 25px;
+}
+.postAction {
+  display: flex;
+}
+.postReaction {
+  flex: 8;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  cursor: pointer;
+}
+.previousCommnets {
+  max-height: 200px;
+  overflow: scroll;
+  overflow-x: hidden;
+  cursor: pointer;
+}
+.previousCommnets::-webkit-scrollbar {
+  display: none;
+}
+.previousCommnets > p {
+  background-color: rgb(196, 196, 196);
+  margin-bottom: 8px;
+  margin-top: 8px;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.postLike {
+  font-size: 25px;
 }
 
 .postImg {
