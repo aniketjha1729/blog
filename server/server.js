@@ -30,5 +30,5 @@ app.use("/user", userRoutes);
 app.use("/post", postRoutes);
 
 app.listen(PORT, () => {
-  console.log("Server is running on", PORT);
+  console.log("Server is running on 🚀", PORT);
 });

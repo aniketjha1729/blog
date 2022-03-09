@@ -9,7 +9,9 @@ const {
   addLove,
   addClaps,
   addComment,
+  deletePost,
   photo,
+  editPost,
 } = require("../controllers/post");
 const { isUserAuth } = require("../middleware/auth");
 
@@ -30,6 +32,10 @@ router.put("/addLove/:postId", isUserAuth, addLove);
 router.put("/addClaps/:postId", isUserAuth, addClaps);
 
 router.post("/addComments/comment/:postId", isUserAuth, addComment);
+
+router.delete("/deletePost/:postId", isUserAuth, deletePost);
+
+router.put("/editPost/:postId", isUserAuth, editPost);
 
 router.get("/allPosts", getAllPost);
 

@@ -52,7 +52,7 @@ exports.getAllPost = (req, res) => {
 
 exports.getPostById = (req, res) => {
   Post.findById({ _id: req.params.postId })
-    .populate("postedBy", "_id name")
+    .populate("postedBy", "_id name email")
     .then((post) => {
       if (!post) {
         res.status(404).json({ message: "no post found" });
@@ -60,6 +60,57 @@ exports.getPostById = (req, res) => {
       res.status(200).json(post);
     })
     .catch((err) => console.log(err));
+};
+
+exports.editPost=(req,res)=>{
+  let form = new formidable.IncomingForm();
+  form.keepExtensions = true;
+  form.parse(req, (err, fields, file) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({
+        errors: [{ msg: "Problem with file" }],
+      });
+    }
+    const { content, title, category } = fields;
+    let editedPost = {
+      content,
+      title,
+      category,
+      postedBy:req.user._id
+    };
+    if (file.photo) {
+      if (file.photo.size > 300000) {
+        return res.status(400).json({
+          errors: "file is to big",
+        });
+      }
+      post.photo.data = fs.readFileSync(file.photo.path);
+      post.photo.contentType = file.photo.type;
+    }
+    Post.findByIdAndUpdate(
+      req.params.postId,
+      { $set: editedPost },
+      { new: true },
+      (err, post) => {
+        if (!err) {
+          return res.status(200).json(post);
+        } else {
+          return res.status(500).json({ msg: "Server Error" });
+        }
+      }
+    );
+  });
+}
+
+exports.deletePost = (req, res) => {
+  Post.findById({ _id: req.params.postId })
+    .then((post) => {
+      post.remove();
+    })
+    .then(() => {
+      return res.status(200).json({ msg: "Success" });
+    });
 };
 
 exports.addComment = (req, res) => {
