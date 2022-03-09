@@ -1,36 +1,36 @@
 const express = require("express");
 const router = express.Router();
-// const { check } = require("express-validator");
+const { check } = require("express-validator");
 
-// const { signIn, signUp, currentProfile } = require("../controllers/user");
+const { signIn, signUp, currentProfile } = require("../controllers/user");
 
-// const { isUserAuth } = require("../middleware/auth");
+const { isUserAuth } = require("../middleware/auth");
 
 /*<=======================================================================================================>*/
 
 router.get("/test", (req, res) => {
   res.status(200).json({
-    Message: "User Routes Working",
+    Message: "User Routes Working yeah yeah",
   });
 });
 
-// router.get("/currentUser", isUserAuth, currentProfile);
+router.get("/currentUser", isUserAuth, currentProfile);
 
-// router.post(
-//   "/signin",
-//   check("email", "Please include a valid email").isEmail(),
-//   signIn
-// );
+router.post(
+  "/signin",
+  check("email", "Please include a valid email").isEmail(),
+  signIn
+);
 
-// router.post(
-//   "/signup",
-//   check("name", "Name is required").notEmpty(),
-//   check("email", "Please include a valid email").isEmail(),
-//   check(
-//     "password",
-//     "Please enter a password with 6 or more characters"
-//   ).isLength({ min: 6 }),
-//   signUp
-// );
+router.post(
+  "/signup",
+  check("name", "Name is required").notEmpty(),
+  check("email", "Please include a valid email").isEmail(),
+  check(
+    "password",
+    "Please enter a password with 6 or more characters"
+  ).isLength({ min: 6 }),
+  signUp
+);
 
 module.exports = router;

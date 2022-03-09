@@ -11,23 +11,23 @@ const postRoutes = require("./routes/post");
 
 const app = express();
 
-// mongoose
-//   .connect(process.env.DATABASE, {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//     useCreateIndex: true,
-//     useFindAndModify: false,
-//   })
-//   .then(() => {
-//     console.log("Db Connected");
-//   });
+mongoose
+  .connect(process.env.DATABASE, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+  })
+  .then(() => {
+    console.log("Db Connected");
+  });
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use("/user", userRoutes);
-// app.use("/post", postRoutes);
+app.use("/post", postRoutes);
 
 app.listen(PORT, () => {
   console.log("Server is running on 🚀", PORT);
